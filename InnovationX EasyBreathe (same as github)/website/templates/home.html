@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h1 align="center">Doctor Prescriptions</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Prescriptions!</button>
+  </div>
+</form>
+
+<div style="margin-top: 50px;" class="ui container">
+  <h1 class="ui center aligned header">What medicine do you need to take?</h1>
+
+  <form class="ui form" action="/add" method="post">
+    <div class="field">
+      <label>Reminders</label>
+      <input type="text" name="title" placeholder="Enter Reminder..."><br>
+    </div>
+    <button class="ui blue button" type="submit">Add</button>
+  </form>
+
+  <hr>
+
+  {% for todo in todo_list %}
+  <div class="ui segment">
+    <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
+
+    {% if todo.complete == False %}
+    <span class="ui gray label">Not Complete</span>
+    {% else %}
+    <span class="ui green label">Completed</span>
+    {% endif %}
+    {% if todo.complete == False %}
+    <a class="ui blue button" href="/update/{{ todo.id }}">Done?</a>
+    {% else %}
+    <a class="ui blue button" href="/update/{{ todo.id }}">Not Done?</a>
+    {% endif %}
+    <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+  </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
